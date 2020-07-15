@@ -73,7 +73,7 @@ public class Test1 {
 	
 	public static void eightQueue() {
 		ArrayList<int[]> list = new ArrayList<>();
-		int[] arr = new int[7];
+		int[] arr = new int[8];
 		loop(arr, list, 0);
 		System.out.println(list.size());
 	}
