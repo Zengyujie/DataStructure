@@ -4,10 +4,7 @@ public class ListNodeTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ListNode root = new ListNode(1);
-		root.next = new ListNode(2);
-		root.next.next = new ListNode(3);
-		reverser(root);
+		john();
 	}
 	
 	public static void printList(ListNode n) {
@@ -29,6 +26,32 @@ public class ListNodeTest {
 		}
 		n.next = pre;
 		return n;
+	}
+	
+	public static void john() {
+		ListNode root = new ListNode(1);
+		root.next = new ListNode(2);
+		root.next.next = new ListNode(3);
+		root.next.next.next = new ListNode(4);
+		root.next.next.next.next = new ListNode(5);
+		root.next.next.next.next.next = root;
+		int k = 0;
+		while(root != null) {
+			k = (k + 1) % 5;
+			if(k == 0) {
+				if(root.next != root) {
+					ListNode n = root.next;
+					System.out.println(n.val);
+					root.next = n.next;
+				}else {
+					System.out.println(root.val);
+					root = null;
+				}
+			}else {
+				root = root.next;
+			}
+			
+		}
 	}
 
 }
