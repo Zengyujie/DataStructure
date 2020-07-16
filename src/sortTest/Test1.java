@@ -1,6 +1,8 @@
 package sortTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Test1 {
 	
@@ -26,7 +28,6 @@ public class Test1 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int num[] = {9,8,7,6,5,4,3,2,1,0,10};
-		merge(num);
 	}
 	
 	
@@ -172,6 +173,47 @@ public class Test1 {
 			num[left1++] = temp[i];
 		}
 	}
+	
+	
+	/*
+	 * 基数排序：通过键值的各个位的值，将要排序的元素分配至某些桶中
+	 * 1，将所有待排序数位数补齐，不够的补0
+	 * 2，建立10个桶，代表0-10
+	 * 3，从个位开始，依次将每轮对应的数字放入桶中
+	 * 4，迭代位数这么多次就出结果了
+	 * 
+	 */
+	public static void radix(int num[]) {
+		List<List<Integer>> bucket = new ArrayList<>();
+		for(int i = 0; i < 10; i++) {
+			bucket.add(new ArrayList<Integer>());
+		}
+		List<Integer> list = new ArrayList<>();
+		for(int i = 0; i < num.length; i++) {
+			list.add(num[i]);
+		}
+		int step = 1;
+	    int count = 0;
+		while(count < 9) {
+			while(!list.isEmpty()) {
+				int n1 = list.get(0) / step;
+				n1 = n1 % 10;
+				bucket.get(n1).add(list.remove(0));
+			}
+			for(int i = 0; i < 10; i++) {
+				List<Integer> tlist = bucket.get(i);
+				while(!tlist.isEmpty()) {
+					list.add(tlist.remove(0));
+				}
+			}
+			
+			step = step * 10;
+		}
+		
+		list.forEach(System.out::println);
+	}
+	
+	
 	
 	
 }
