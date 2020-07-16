@@ -96,26 +96,23 @@ public class Test1 {
 		if(len == 0) {
 			return true;
 		}
-		HashSet<Integer> set = new HashSet<>();
-		set.add(arr[0]);
-		if(!set.add(arr[len])) {
-			return false;
-		}
-		
-		if(len == 1) {
-			if(Math.abs(arr[0] - arr[len]) == 1) {
-				return false;
+		for(int i = 0; i <= len; i++) {
+			int temp = arr[i];
+			int left = i - 1;
+			int right = i + 1;
+			int t1 = 1;
+			while(left >= 0){
+				if(arr[left] == temp || Math.abs(arr[left] - temp) == t1)
+					return false;
+				left--;
+				t1++;
 			}
-		}
-		for(int i = 1; i < len; i++) {
-			if(!set.add(arr[i])) {
-				return false;
-			}
-			if(Math.abs(arr[i] - arr[i + 1]) == 1) {
-				return false;
-			}
-			if(Math.abs(arr[i] - arr[i - 1]) == 1) {
-				return false;
+			t1 = 1;
+			while(right <= len){
+				if(arr[right] == temp || Math.abs(arr[right] - temp) == t1)
+					return false;
+				right++;
+				t1++;
 			}
 		}
 		return true;
