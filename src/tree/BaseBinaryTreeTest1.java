@@ -14,11 +14,8 @@ public class BaseBinaryTreeTest1 {
 		n1.setRight(n3);
 		n2.setLeft(n4);
 		BinaryTree bt = new BinaryTree(n1);
-		bt.preOrder1();
-		System.out.println("-----------");
-		bt.midOrder1();
-		System.out.println("-----------");
-		bt.postOrder1();
+		Node res = bt.preSearch(5);
+		System.out.println(res);
 	}
 	
 	
@@ -99,6 +96,42 @@ class Node{
 				this.right.postOrder();
 			}
 			System.out.println(this);
+		}
+		
+		
+		public Node preSearch(int target) {
+			if(this.no == target) {
+				return this;
+			}
+			Node res = null;
+			if(this.left != null){
+				res = this.left.preSearch(target);
+				if(res != null)
+					return res;
+			}
+			if(this.right != null){
+				res = this.right.preSearch(target);
+				if(res != null)
+					return res;
+			}
+			return res;
+		}
+		
+		public Node deleteChild(int no) {
+			Node res = null;
+			if(this.left!= null) {
+				if(this.left.no == no) {
+					res = this.left;
+					this.left = null;
+				}
+			}
+			if(this.right!= null) {
+				if(this.right.no == no) {
+					res = this.right;
+					this.right = null;
+				}
+			}
+			return res;
 		}
 	
 }
@@ -189,23 +222,69 @@ class BinaryTree{
 			Stack<Node> s = new Stack<>();
 			s.push(curr);
 			curr = curr.getLeft();
-			while(!s.isEmpty()){
+			Node pre = null;
+			while(curr != null || !s.isEmpty()){
 				while(curr != null){
 					s.push(curr);
 					curr = curr.getLeft();
 				}
+				if(s.isEmpty())
+					break;
 				curr = s.peek();
-				curr = curr.getRight();
-				if(curr != null){
-					s.push(curr);
-					curr = curr.getLeft();
+				if(curr.getRight() == null) {
+					System.out.println(curr.getNo());
+					pre = curr;
+					s.pop();
+					curr = null;
+					if(!s.isEmpty()) {
+						curr = s.peek();
+						curr = curr.getRight();
+						continue;
+					}
 				}else{
-					System.out.println(s.pop().getNo());
-					curr = s.peek().getRight();
+					if(curr.getRight() == pre){
+						System.out.println(curr.getNo());
+						pre = curr;
+						s.pop();
+						curr = null;
+						if(!s.isEmpty()) {
+							curr = s.peek();
+							curr = curr.getRight();
+							continue;
+						}
+					}
 				}
+				
 			}
 		}else{
 			System.out.println("null tree");
+		}
+	}
+	
+	public Node preSearch(int target) {
+		if(root != null)
+			return root.preSearch(target);
+		return null;
+	}
+	
+	
+	public void deleteNode(int no) {
+		if(this.root != null) {
+			if(this.root.getNo() == no) {
+				root = null;
+				return;
+			}
+			deleteNodes(no, root);
+		}
+	}
+	
+	public void deleteNodes(int no, Node n) {
+		if(n.deleteChild(no) != null) {
+			if(n.getLeft() != null)
+				deleteNodes(no, n.getLeft());
+			if(n.getRight() != null) {
+				deleteNodes(no, n.getRight());
+			}
 		}
 	}
 	
